@@ -1,0 +1,38 @@
+
+weba:
+  build: .
+  expose:
+    - 80
+
+webb:
+  build: .
+  expose:
+    - 80
+
+webc:
+  build: .
+  expose:
+    - 80
+
+webd:
+  build: .
+  expose:
+    - 80
+
+haproxy:
+  image: haproxy:1.5
+  volumes: 
+    - ./haproxy:/usr/local/etc/haproxy
+  links:
+    - weba
+    - webb
+    - webc
+    - webd
+  ports:
+    - 80:80
+    - 70:70
+  expose:
+    - 80
+    - 70
+
+ 
