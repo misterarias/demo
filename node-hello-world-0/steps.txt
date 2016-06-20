@@ -1,0 +1,13 @@
+
+docker build -t node-hello-world .
+
+docker run -p 80:80 --name web -d node-hello-world
+
+curl http://localhost
+
+ab -n 10000 -c 10 http://localhost/
+
+docker stop web
+
+
+
