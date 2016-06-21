@@ -1,7 +1,7 @@
 
 ## Despliegues portables entre máquinas.
 
-Docker define un formato para empaquetar aplicaciones y todas sus dependencias en un único objeto que puede ser trasnferido a cualquier máquina dockerizada. 
+Docker define un formato para empaquetar aplicaciones y todas sus dependencias en un único objeto que puede ser transferido a cualquier máquina dockerizada. 
 
 ## Orientado a la ejecución de aplicaciones.
   
@@ -9,7 +9,7 @@ Docker está optimizado para el despliegue de aplicaciones, no de máqinas.
 
 ## Construccion automática.
  
-Docker proporciona la capacidad de que los desarrolladores puedan ensamblar containers para su código fuente con control absoluto sobre las dependencias de la aplicación, herraminteas de construcción, métodos de enpaquetamiento, etc...
+Docker proporciona la capacidad de que los desarrolladores puedan ensamblar containers para su código fuente con control absoluto sobre las dependencias de la aplicación, herramientas de construcción, métodos de enpaquetamiento, etc...
 
 ## Versionamiento.
   
@@ -30,5 +30,5 @@ Docker define un API para la automatizar y configurar la creación y despliegue 
 - Herramientas para el despliegue: Dokku, Deis, Flynn... 
 - Orquestación multi-nodo: maestro, salt, mesos, openstack nova...
 - Tableros de mando de gestión: docker-ui, openstack horizon, shipyard...
-- Gestión de la configuración:chef, puppet
+- Gestión de la configuración: chef, puppet
 - Integración continua: jenkins, strider, travis
