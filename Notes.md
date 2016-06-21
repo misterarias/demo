@@ -26,3 +26,9 @@ Docker tiene accesos a un registro público donde muchas personas han subido con
 ## Ecosistema de herramientas.
   
 Docker define un API para la automatizar y configurar la creación y despliegue de contenedores.
+
+- Herramientas para el despliegue: Dokku, Deis, Flynn... 
+- Orquestación multi-nodo: maestro, salt, mesos, openstack nova...
+- Tableros de mando de gestión: docker-ui, openstack horizon, shipyard...
+- Gestión de la configuración:chef, puppet
+- Integración continua: jenkins, strider, travis
