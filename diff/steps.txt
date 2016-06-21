@@ -1,0 +1,13 @@
+
+docker run --name hello -d debian:latest /bin/sh -c "while true; do echo hello world; sleep 1; done"
+
+docker logs hello
+
+docker exec --it  hello  /bin/bash
+
+touch /tmp/bufoncillo
+
+exit
+
+docker diff hello
+
