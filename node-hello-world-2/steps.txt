@@ -1,0 +1,21 @@
+
+docker-compose build
+
+docker-compose up -d
+
+docker-compose scale web=4
+
+docker-compose logs
+
+curl http://localhost
+curl http://localhost
+curl http://localhost
+curl http://localhost
+
+ab -n 10000 -c 30 http://localhost/
+
+docker-compose stop
+
+docker-compose down
+
+
