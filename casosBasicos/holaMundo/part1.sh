@@ -1,2 +1,2 @@
 #!/bin/sh
-docker run -ti busybox echo "Hola Mundo"
+docker run busybox echo "Hola Mundo"
