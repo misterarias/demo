@@ -1,0 +1,32 @@
+---
+version: '2'
+services:
+    postgres_94:
+        build: ./postgres_94/
+        expose:
+            - "5432"
+        ports:
+            - "5432:5432"
+    dynamodb:
+        build: ./dynamodb_local/
+        expose:
+            - "8000"
+        ports:
+            - "8000:8000"
+    rpmbuilder:
+        build: ./rpmbuild/
+    redis:
+        build: ./redis
+        expose:
+            - 6379
+        ports:
+            - 6379:6379
+        volumes:
+            - redis-data:/var/lib/redis
+        command:
+            - ./start.sh
+
+# This should create a data volume to be shared
+volumes:
+    redis-data:
+        driver: local

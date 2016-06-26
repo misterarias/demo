@@ -1,0 +1,135 @@
+---
+version: '2'
+services:
+    consumer:
+        build: ./node_kafka_consumer
+        links:
+            - zookeeper:zk
+            - kafka:kafka
+        volumes_from:
+            - stats_data
+        expose:
+            - 80
+
+    consumer-lb:
+        image: dockercloud/haproxy
+        links:
+            - consumer
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        ports:
+            - 8888:80
+
+    tsung:
+        build: ./load
+        links:
+            - consumer-lb:reto1server
+        expose:
+            - 80
+        environment:
+            RATE: 50
+            HITS: 50
+
+    logstash:
+        build: ./logstash
+        links:
+            - elastic:retoelasticsearch
+        volumes_from:
+            - stats_data
+
+    elastic:
+        image: elasticsearch
+        ports:
+            - 9200:9200
+            - 9300:9300
+        expose:
+            - 9200
+            - 9300
+        volumes_from:
+            - elasticsearch_data
+        command:
+            "elasticsearch"
+
+    kibana:
+        image: kibana
+        links:
+            - elastic:elasticsearch
+        expose:
+            - 5601
+        ports:
+            - 5601:5601
+
+    zookeeper:
+        image: wurstmeister/zookeeper
+        ports:
+            - "2181:2181"
+        expose:
+            - 2181
+    kafka:
+        image: wurstmeister/kafka
+        expose:
+            - 9092
+        depends_on:
+            - zookeeper
+        links:
+            - zookeeper:zk
+        environment:
+            HOSTNAME_COMMAND: "ifconfig  eth0 | egrep -o 'inet addr:[0-9.]*' | cut -d: -f2 | tr -d ' '"
+            KAFKA_ADVERTISED_PORT: 9092
+            KAFKA_AUTO_CREATE_TOPIC_ENABLE: 'true'
+            KAFKA_ZOOKEEPER_CONNECT: "zk:2181"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+
+    # data-only volumes
+    elasticsearch_data:
+        image: busybox
+        volumes:
+            - ./data:/usr/share/elasticsearch/data
+
+    stats_data:
+        image: busybox
+        volumes:
+            - ./shared:/shared
+
+    # Flink
+    jobmanager:
+        image: flink
+        ports:
+            - "48080:8080"
+            - "48081:8081"
+            - "220:22"
+        expose:
+            - "6123"
+            - "22"
+        command: /usr/local/flink/bin/config-flink.sh jobmanager
+        networks:
+            my_net:
+                ipv4_address: 172.16.0.51
+
+    taskmanager:
+        image: flink
+        ports:
+            - "22"
+        expose:
+            - "6121"
+            - "6122"
+        depends_on:
+            - jobmanager
+        links:
+            - jobmanager
+            - kafka
+            - zookeeper
+        command: /usr/local/flink/bin/config-flink.sh taskmanager
+        networks:
+            my_net:
+                ipv4_address: 172.16.0.50
+
+networks:
+    my_net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.16.0.0/20
+                  gateway: 172.16.0.1

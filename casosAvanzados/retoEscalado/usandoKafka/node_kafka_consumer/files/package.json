@@ -1,0 +1,10 @@
+{
+  "name": "node_consumer",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Node code to read data from Tsung and insert it into a kafka topic",
+  "author": "Juan Arias",
+  "dependencies": {
+    "kafka-node": "0.3.3"
+  }
+}
