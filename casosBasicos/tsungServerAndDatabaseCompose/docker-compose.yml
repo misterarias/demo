@@ -1,0 +1,31 @@
+version: '2'
+services:
+  db:
+    build: ../tsungServerAndDatabase/db
+    ports:
+      - 3306:3306
+    expose: 
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: passwd
+
+  server:
+    build: ../tsungServerAndDatabase/server
+    ports:
+      - 80:80
+    links:
+      - db:db
+    expose:
+      - 80
+  
+  tsung:
+    build: ../tsungServerAndDatabase/tsung
+    links:
+      - server:server
+    ports:
+      - 8888:8888
+    expose:
+      - 8888
+    environment:
+      RATE: 10
+      HITS: 10
